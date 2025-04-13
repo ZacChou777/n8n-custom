@@ -1,0 +1,10 @@
+build image
+docker build . -t n8n-local
+docker build . -t n8n-local--build-arg N8N_VERSION=1.86.1
+
+
+start server
+sudo docker compose up -d
+
+stop server
+sudo docker compose stop

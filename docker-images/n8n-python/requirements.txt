@@ -1,0 +1,9 @@
+fire
+Faker
+numpy
+pandas
+instaloader
+instapy
+pymongo
+mongoengine
+yfinance
