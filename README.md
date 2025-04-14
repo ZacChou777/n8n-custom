@@ -1,5 +1,12 @@
 
-# n8n-python 
+
+# n8n-python
+
+參考：
+https://github.com/naskio/n8n-nodes-python
+https://github.com/naskio/docker-n8n-python
+
+
 ## n8n-python Docker Image (Recommended)
 This node is pre-installed in the n8n-python docker image .
 
