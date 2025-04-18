@@ -20,6 +20,8 @@ services:
     volumes:
       - traefik_data:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - n8n-network
 
   n8n:
     platform: linux/amd64
@@ -56,22 +58,48 @@ services:
       - WEBHOOK_URL=http://${DOMAIN_NAME}/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
       - N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
+      - N8N_QUEUE_BULL_REDIS_HOST=redis
+      - N8N_QUEUE_BULL_REDIS_PORT=6379
+      - N8N_QUEUE_BULL_REDIS_DB=0
+      - N8N_QUEUE_BULL_REDIS_PASSWORD=test
+      - N8N_REDIS_HOST=redis
+      - N8N_REDIS_PORT=6379
+      - N8N_REDIS_DB=0
+      - N8N_REDIS_PASSWORD=test
     volumes:
       - n8n_data:/home/node/.n8n
       - ./local-files:/files
+    networks:
+      - n8n-network
+    depends_on:
+      redis:
+        condition: service_healthy
+
   redis:
     image: redis:latest
     container_name: redis
     restart: always
     ports:
       - '6379:6379'
+      # 需要取的内部ＩＰ来连线　如172.21.0.3
     volumes:
-      - ./data:/data
+      - redis_data:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
       - ./logs:/logs
-    #配置文件启动
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass test
+    networks:
+      - n8n-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "test", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
 
 volumes:
   n8n_data:
   traefik_data:
+  redis_data:
+
+networks:
+  n8n-network:
+    driver: bridge
