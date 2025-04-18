@@ -6,7 +6,7 @@ For information about how to run n8n with Docker check the generic Docker-Readme
 docker build --build-arg N8N_VERSION=<VERSION> -t zacchou/zac-n8n:<VERSION> .
 
 # For example:
-docker build --build-arg N8N_VERSION=1.88.0 -t zacchou/zac-n8n:1.88.0-debian .
+docker build --build-arg N8N_VERSION=1.88.0 -t zacchou/zac-n8n:1.88.0 .
 
 # start server  with docker compose
 sudo docker compose up -d
