@@ -66,6 +66,8 @@ services:
       - N8N_REDIS_PORT=6379
       - N8N_REDIS_DB=0
       - N8N_REDIS_PASSWORD=test
+      - NODE_FUNCTION_ALLOW_EXTERNAL=node-fetch
+      - NODE_FUNCTION_ALLOW_BUILTIN=*
     volumes:
       - n8n_data:/home/node/.n8n
       - ./local-files:/files
